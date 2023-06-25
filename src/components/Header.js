@@ -11,11 +11,11 @@ function Header() {
             <ul className="d-flex">
                 <li className="mr-30">
                     <img width={18} height={18} src="/img/cart.svg" alt="cart" />
-                    <span>1222 kzt.</span>
+                    <span>23232322 kzt.</span>
                 </li>
-                <li>
+                {/* <li>
                     <img width={20} height={20} src="/img/user.svg" alt="user" />
-                </li>
+                </li> */}
             </ul>
         </header>
     )
