@@ -21,7 +21,7 @@ function Drawer() {
                         <div style={{ backgroundImage: 'url(/img/sneakers/2.jpg)' }} className="cartItemImg"></div>
 
                         <div className="mr-20 flex">
-                            <p className="mb-5">ASDADASDASDHASD ASKD JAHSD ASD KA</p>
+                            <p className="mb-5">Мужские кроссовки Nike Air Max 270</p>
                             <b>12 999kzt.</b>
                         </div>
                         <img className="removeBtn" src="/img/btn-remove.svg" alt="Remove"></img>
