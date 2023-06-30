@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
@@ -10,10 +11,12 @@ const arr = [
 ];
 
 function App() {
+  const [cartOpened, setCartOpened] = React.useState(false);
+
   return <div className="wrapper clear">
 
-    <Drawer />
-    <Header />
+    {cartOpened ? <Drawer onClose={() => setCartOpened(false)} /> : null}
+    <Header onClickCart={() => setCartOpened(true)} />
     <div className="content p-40">
       <div className="d-flex align-center mb-40 justify-between">
         <h1>All Sneakers</h1>
@@ -28,7 +31,9 @@ function App() {
           <Card
             title={obj.title}
             price={obj.price}
-            imageUrl={obj.imageUrl} />
+            imageUrl={obj.imageUrl}
+            onFavorite={() => console.log('added to favorite')}
+            onPlus={() => console.log('added to cart')} />
         ))}
       </div>
 
