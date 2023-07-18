@@ -1,4 +1,5 @@
 function Drawer({ onClose, onRemove, items = [] }) {
+    console.log(items);
     return (
         <div className="overlay">
             <div className="drawer">
@@ -42,7 +43,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
                             </div>
                         </div>
                         :
-                        <div className="cartEmpty d-flex align-center justify-center flex-column flex">
+                        <div className="cartEmpty d-flex align-center flex-column flex mt-40">
                             <img className="mb-20" width={120} height={120} src="/img/empty-cart.jpg" alt="empty cart img" />
                             <h2>Your Cart is empty</h2>
                             <p className="opacity-6">Add at least one Sneakers, for order</p>

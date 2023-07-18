@@ -1,8 +1,10 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 
 function App() {
@@ -30,25 +32,25 @@ function App() {
     })
   }, []);
 
-  const onAddToCart = (obj) => {
-    axios.post('https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems', obj);
-    setCartItems([...cartItems, obj]);
+  const onAddToCart = async (obj) => {
+    const addedItem = await axios.post('https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems', obj);
+    console.log('addedItem', addedItem)
+    setCartItems([...cartItems, addedItem.data]);
   }
 
 
   //должен быть роут favorites но mockapi не дает создать еще один роут, поэтому избранные будут добавляться в корзину
-  const onAddToFavorites = (obj) => {
-    axios.post('https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems', obj);
-    setFavorites([...favorites, obj]);
-  }
+  // const onAddToFavorites = (obj) => {
+  //   axios.post('https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems', obj);
+  //   setFavorites([...favorites, obj]);
+  // }
 
 
   //если добавить товар и сразу удалить айди будет андефайнед
   //если добавить товар, обновить страницу и удалить товар то все работает правильно
-  const onRemoveItem = (id) => {
-    axios.delete(`https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems/${id}`);
-    setCartItems((prev) => prev.filter(item => item.id !== id));
-    console.log(id);
+  const onRemoveItem = async (id) => {
+    const deletedItem = await axios.delete(`https://64a316fcb45881cc0ae61baa.mockapi.io/cartItems/${id}`);
+    setCartItems((prev) => prev.filter(item => item.id !== deletedItem.data.id));
   }
 
 
@@ -60,34 +62,34 @@ function App() {
 
     {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
     <Header onClickCart={() => setCartOpened(true)} />
-    <div className="content p-40">
-      <div className="d-flex align-center mb-40 justify-between">
-        <h1>{searchValue ? `searching: "${searchValue}"` : 'All Sneakers'}</h1>
-        <div className="search-block d-flex">
-          <img src="/img/search.svg" alt="Search" />
-          {searchValue && <img onClick={() => setSearchValue('')} className="clear cu-p" src="/img/btn-remove.svg" alt="Clear"></img>}
-          <input onChange={onChangeSearchInput} value={searchValue} placeholder="Search..." />
-        </div>
-      </div>
 
-      <div className="d-flex flex-wrap mb-20">
-        {items
-          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-          .map((item, index) => (
-            <Card
-              key={index}
-              title={item.title}
-              price={item.price}
-              imageUrl={item.imageUrl}
-              onFavorite={(obj) => onAddToFavorites(obj)}
-              onPlus={(obj) => onAddToCart(obj)} />
-          ))}
-      </div>
+    {/* <Routes>
+      <Route path='/' />
+      <Home
+        items={items}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        onChangeSearchInput={onChangeSearchInput}
+        onAddToCart={onAddToCart} />
+    </Routes> */}
+
+    <Routes>
+      <Route path='/' element={
+        <Home
+          items={items}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          onChangeSearchInput={onChangeSearchInput}
+          onAddToCart={onAddToCart} />} />
+    </Routes>
+
+    <Routes>
+      <Route path='/favorites' element={
+        <Favorites items={cartItems} />} />
+    </Routes>
 
 
 
-
-    </div>
   </div >;
 }
 
